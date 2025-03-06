@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request
 from models.AlumnosModel import AlumnoModel
-from models.entities.Alumnos import Alumno
 
 main = Blueprint('alumnos_blueprint', __name__)
 
