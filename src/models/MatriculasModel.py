@@ -3,7 +3,7 @@ from .entities.Matriculas import Matricula
 
 class MatriculaModel():
     @classmethod
-    def get_matricula(self):
+    def get_matriculas(self):
         try:
             connection = get_connection()
             listaMatricula = []
@@ -21,3 +21,24 @@ class MatriculaModel():
         
         except Exception as ex:
             raise Exception(ex)
+
+    @classmethod
+    def get_matricula(self,id):
+        try:
+            connection = get_connection()
+            
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT id, alumno_id, curso_id FROM matriculas WHERE id = %s", (id,))
+                resultset = cursor.fetchone()
+
+                if resultset:
+                    matricula = Matricula(resultset[0], resultset[1], resultset[2])
+                    return matricula.to_JSON()
+                else:
+                    return {"message": "No se encuentra registro de Matricula"}
+                
+        except Exception as ex:
+            raise Exception(ex)
+        
+        finally:
+            connection.close()    

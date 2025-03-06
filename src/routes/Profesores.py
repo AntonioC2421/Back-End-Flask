@@ -52,7 +52,7 @@ def add_profe():
 
 #Actualizar profesores
 
-@main.route('/profesores/update/<id>', methods=['PUT'])
+@main.route('/profesores/update/<int:id>', methods=['PUT'])
 def update_profe(id):
     try:
         name=request.json['name']
