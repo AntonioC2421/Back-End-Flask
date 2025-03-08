@@ -9,6 +9,7 @@ def get_matriculas():
     try:
         matriculas = MatriculaModel.get_matriculas()
         return jsonify(matriculas)
+    
     except Exception as ex:
         return jsonify({"message":str(ex)}),500
 
@@ -17,6 +18,7 @@ def get_matricula(id):
     try:
         matricula = MatriculaModel.get_matricula(id)
         return jsonify(matricula)
+    
     except Exception as ex:
         return jsonify({"message": str(ex)}),500
     
@@ -35,5 +37,39 @@ def add_matricula():
             return jsonify({"message":"Matricula registrada correctamente"})
         else:
             return jsonify({"message":"Error en registro de matricula"})
+        
     except Exception as ex:
         return jsonify({"message": str(ex)}),500
+    
+@main.route("/matriculas/update/<int:id>", methods=["PUT"])
+def update_matricula(id):
+    try:
+        alumno_id = request.json["alumno_id"]
+        curso_id = request.json["curso_id"]
+        
+        matricula = Matricula(id,alumno_id,curso_id)
+
+        affected_rows = MatriculaModel.update_matricula(matricula)
+
+        if affected_rows == 1:
+            return jsonify({"message":"Matricula actualizada correctamente"})
+        else:
+            return jsonify({"message":"Error en actualizacion de matricula"}),500
+        
+    except Exception as ex:
+        return jsonify({"message": str(ex)}),500
+
+@main.route("/matriculas/delete/<int:id>", methods=["DELETE"])
+def delete_matricula(id):
+    try:
+        matricula = Matricula(id)
+
+        affected_rows = MatriculaModel.delete_matricula(matricula)
+
+        if affected_rows == 1:
+            return jsonify({"message":"Matricula eliminada correctamente"})
+        else:
+            return jsonify({"message":"Error al eliminar matricula"}),500
+        
+    except Exception as ex:
+        return jsonify({"message":str(ex)}),500

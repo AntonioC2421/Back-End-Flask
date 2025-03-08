@@ -9,7 +9,7 @@ class MatriculaModel():
             listaMatricula = []
 
             with connection.cursor() as cursor:
-                cursor.execute('SELECT id, alumno_id, curso_id FROM matriculas')
+                cursor.execute('SELECT id, alumno_id, curso_id FROM matriculas ORDER BY id ASC')
                 resultset = cursor.fetchall()
 
                 for OneMatricula in resultset:
@@ -54,6 +54,40 @@ class MatriculaModel():
                 affected_rows = cursor.rowcount
                 connection.commit()
 
+            connection.close()
+            return affected_rows
+        
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def update_matricula(self,updatematricula):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute("UPDATE matriculas SET alumno_id=%s, curso_id=%s WHERE id=%s",(updatematricula.alumno_id, updatematricula.curso_id, updatematricula.id))
+
+                affected_rows = cursor.rowcount
+                connection.commit()
+            
+            connection.close()
+            return affected_rows
+        
+        except Exception as ex:
+            raise Exception(ex)
+
+    @classmethod
+    def delete_matricula(self,deletematricula):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM matriculas WHERE id = %s", (deletematricula.id,))
+
+                affected_rows = cursor.rowcount
+                connection.commit()
+                
             connection.close()
             return affected_rows
         

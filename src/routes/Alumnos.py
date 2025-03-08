@@ -9,6 +9,7 @@ def get_alumno():
     try:
         alumnos = AlumnoModel.get_alumnos()
         return jsonify(alumnos)
+    
     except Exception as ex:
         return jsonify({"message":str(ex)}),500
 
@@ -17,6 +18,7 @@ def get_OneAlumno(id):
     try:
         alumno = AlumnoModel.get_OneAlumno(id)
         return jsonify(alumno)
+    
     except Exception as ex:
         return jsonify({"message":str(ex)}),500
 
@@ -43,3 +45,37 @@ def add_alumnos():
 
     except Exception as ex:
         raise Exception(ex)
+    
+@main.route("/alumnos/update/<int:id>", methods=["PUT"])
+def update_alumno(id):
+    try:
+        name = request.json["name"]
+        last_name = request.json["last_name"]
+        email = request.json["email"]
+
+        alumno = Alumno(id,name,last_name,email)
+
+        affected_rows= AlumnoModel.update_alumno(alumno)
+
+        if affected_rows == 1:
+            return jsonify({"message":"Alumno editado correctamente"})
+        else:
+            return jsonify({"message":"Error al editar alumno"}),500
+        
+    except Exception as ex:
+        return jsonify({"message": str(ex)}),500
+    
+@main.route("/alumnos/delete/<int:id>", methods=["DELETE"])
+def delete_alumno(id):
+    try:
+        alumno = Alumno(id)
+
+        affected_rows = AlumnoModel.delete_alumno(alumno)
+        
+        if affected_rows == 1:
+            return jsonify({"message":"Alumno Eliminado"})
+        else:
+            return jsonify({"message":"Error al eliminar alumno"}),500
+        
+    except Exception as ex:
+        return jsonify({"message":str(ex)}),500

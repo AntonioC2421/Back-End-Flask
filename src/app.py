@@ -1,6 +1,5 @@
 from flask import Flask
 from config import config
-from routes import Profesores
 from flask_cors import CORS
 from routes.Profesores import main as profesor_routes
 from routes.Cursos import main as cursos_blueprint

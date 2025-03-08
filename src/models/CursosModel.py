@@ -62,4 +62,35 @@ class CursosModel():
         except Exception as ex:
             raise Exception(ex)
 
+    @classmethod
+    def update_curso(self, updatecurso):
+        try:
+            connection = get_connection()
+            with connection.cursor() as cursor:
+                cursor.execute("UPDATE cursos SET id_profesor=%s, name=%s WHERE id=%s",(updatecurso.id_profesor,updatecurso.name,updatecurso.id))
 
+                affected_rows = cursor.rowcount
+                connection.commit()
+
+            connection.close()
+            return affected_rows
+        
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def delete_curso(self,deletecurso):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM cursos WHERE id=%s",(deletecurso.id,))
+
+                affected_rows = cursor.rowcount
+                connection.commit()
+
+            connection.close()
+            return affected_rows
+        
+        except Exception as ex:
+            raise Exception(ex)        

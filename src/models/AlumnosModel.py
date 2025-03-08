@@ -29,6 +29,7 @@ class AlumnoModel():
     def get_OneAlumno(self, id):
         try:
             connection = get_connection()
+            
             with connection.cursor() as cursor:
                 cursor.execute("SELECT id, name, last_name, email FROM alumnos WHERE id = %s" , (id,))
                 resultset = cursor.fetchone()
@@ -59,5 +60,38 @@ class AlumnoModel():
             connection.close()
             return affected_rows
 
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def update_alumno(self, updatealumno):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute("UPDATE alumnos SET name=%s, last_name=%s, email=%s WHERE id = %s",(updatealumno.name, updatealumno.last_name, updatealumno.email, updatealumno.id))
+
+                affected_rows = cursor.rowcount
+                connection.commit()
+
+            connection.close()
+            return affected_rows
+        
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def delete_alumno(self, deletealumno):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute("DELETE FROM alumnos WHERE id=%s",(deletealumno.id,))
+                affected_rows = cursor.rowcount
+                connection.commit()
+
+            connection.close()
+            return affected_rows
+        
         except Exception as ex:
             raise Exception(ex)
