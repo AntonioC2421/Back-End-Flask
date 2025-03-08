@@ -19,3 +19,21 @@ def get_matricula(id):
         return jsonify(matricula)
     except Exception as ex:
         return jsonify({"message": str(ex)}),500
+    
+@main.route("/matriculas/add", methods=["POST"])
+def add_matricula():
+    try:
+        id = request.json["id"]
+        curso_id = request.json["curso_id"]
+        alumno_id =  request.json["alumno_id"]
+
+        matricula = Matricula(id,curso_id,alumno_id)
+
+        affected_row = MatriculaModel.add_matricula(matricula)
+
+        if affected_row == 1:
+            return jsonify({"message":"Matricula registrada correctamente"})
+        else:
+            return jsonify({"message":"Error en registro de matricula"})
+    except Exception as ex:
+        return jsonify({"message": str(ex)}),500

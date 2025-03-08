@@ -42,3 +42,20 @@ class MatriculaModel():
         
         finally:
             connection.close()    
+    
+    @classmethod
+    def add_matricula(self,newmatricula):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute("INSERT INTO matriculas (id, curso_id, alumno_id) VALUES (%s,%s,%s)", (newmatricula.id, newmatricula.curso_id, newmatricula.alumno_id))
+
+                affected_rows = cursor.rowcount
+                connection.commit()
+
+            connection.close()
+            return affected_rows
+        
+        except Exception as ex:
+            raise Exception(ex)

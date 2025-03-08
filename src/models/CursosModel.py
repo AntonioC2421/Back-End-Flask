@@ -44,3 +44,22 @@ class CursosModel():
         
         finally:
             connection.close()
+
+    @classmethod
+    def add_curso(self,newcurso):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute("INSERT INTO cursos (id,name,id_profesor) VALUES (%s,%s,%s)",(newcurso.id, newcurso.name, newcurso.id_profesor))
+
+                affected_row = cursor.rowcount
+                connection.commit()
+
+            connection.close()
+            return affected_row
+        
+        except Exception as ex:
+            raise Exception(ex)
+
+

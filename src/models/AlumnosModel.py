@@ -45,4 +45,19 @@ class AlumnoModel():
         finally:
             connection.close()
 
-    
+    @classmethod
+    def add_alumno(self, newalumno):
+        try:
+            connection = get_connection()
+
+            with connection.cursor() as cursor:
+                cursor.execute("INSERT INTO alumnos (id, name, last_name, email) VALUES(%s,%s,%s,%s)", (newalumno.id, newalumno.name, newalumno.last_name, newalumno.email))
+
+                affected_rows = cursor.rowcount
+                connection.commit()
+            
+            connection.close()
+            return affected_rows
+
+        except Exception as ex:
+            raise Exception(ex)
