@@ -13,7 +13,7 @@ def get_alumno():
     except Exception as ex:
         return jsonify({"message":str(ex)}),500
 
-@main.route('/alumno/<int:id>', methods=['GET'])
+@main.route('/alumnos/<int:id>', methods=['GET'])
 def get_OneAlumno(id):
     try:
         alumno = AlumnoModel.get_OneAlumno(id)
@@ -36,8 +36,12 @@ def add_alumnos():
 
         if affect_rows == 1:
             return jsonify({
-                "message": "Registro de alumno, exitoso!!"
-                })
+                "message": "Registro exitoso",
+                "id": id,
+                "name": name,
+                "last_name": last_name,
+                "email": email
+            }), 200
         else:
             return jsonify({
                 "message":"Ocurrio un problema con el registro de alumno"
@@ -53,17 +57,26 @@ def update_alumno(id):
         last_name = request.json["last_name"]
         email = request.json["email"]
 
-        alumno = Alumno(id,name,last_name,email)
+        alumno = Alumno(id, name, last_name, email)
 
-        affected_rows= AlumnoModel.update_alumno(alumno)
+        affected_rows = AlumnoModel.update_alumno(alumno)
 
         if affected_rows == 1:
-            return jsonify({"message":"Alumno editado correctamente"})
-        else:
-            return jsonify({"message":"Error al editar alumno"}),500
+            
+            #Devolver el alumno actualizado
+            return jsonify({
+                "id": id,
+                "name": name,
+                "last_name": last_name,
+                "email": email
+            }), 200
         
+        else:
+            return jsonify({"message": "Error al editar alumno"}), 500
+
     except Exception as ex:
-        return jsonify({"message": str(ex)}),500
+        return jsonify({"message": str(ex)}), 500
+
     
 @main.route("/alumnos/delete/<int:id>", methods=["DELETE"])
 def delete_alumno(id):

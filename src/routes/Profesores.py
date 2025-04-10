@@ -43,7 +43,13 @@ def add_profe():
         affected_rows=ProfesoresModel.add_profes(profe)
 
         if affected_rows == 1:
-            return jsonify(profe.id)
+            return jsonify({
+                "message": "Registro exitoso",
+                "id": id,
+                "name": name,
+                "last_name": last_name,
+                "email": email
+            }), 200
         else:
             return jsonify({'message':'Error en agregar profesor'}),500
         
@@ -51,7 +57,6 @@ def add_profe():
         return jsonify({"message": str(ex)}),500
 
 #Actualizar profesores
-
 @main.route('/profesores/update/<int:id>', methods=['PUT'])
 def update_profe(id):
     try:
@@ -64,7 +69,13 @@ def update_profe(id):
         affected_rows=ProfesoresModel.update_profes(profe)
 
         if affected_rows == 1:
-            return jsonify(profe.id)
+            #Devolver el alumno actualizado
+            return jsonify({
+                "id": id,
+                "name": name,
+                "last_name": last_name,
+                "email": email
+            }), 200
         else:
             return jsonify({'message':'Error en actualizar profesor'}),500
         
@@ -72,7 +83,7 @@ def update_profe(id):
         return jsonify({"message": str(ex)}),500
 
 #Eliminar un profesor
-@main.route('/profesores/delete/<id>', methods=['DELETE'])
+@main.route('/profesores/delete/<int:id>', methods=['DELETE'])
 def delete_profe(id):
     try:
         profe = Profesor(id)
@@ -80,9 +91,9 @@ def delete_profe(id):
         affected_rows = ProfesoresModel.delete_profes(profe)
 
         if affected_rows == 1:
-            return jsonify(profe.id)
+            return jsonify({"message":"Profesor Eliminado"})
         else:
-            return jsonify({'message':'ID no encontrada'}),500
+            return jsonify({'message':'Error al eliminar Profesor'}),500
         
     except Exception as ex:
         return jsonify({"message": str(ex)}),500

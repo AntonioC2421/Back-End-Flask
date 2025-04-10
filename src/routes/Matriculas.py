@@ -34,7 +34,12 @@ def add_matricula():
         affected_row = MatriculaModel.add_matricula(matricula)
 
         if affected_row == 1:
-            return jsonify({"message":"Matricula registrada correctamente"})
+            return jsonify({
+                "message": "Registro exitoso",
+                "id": id,
+                "alumno_id": alumno_id,
+                "curso_id": curso_id
+            }), 200
         else:
             return jsonify({"message":"Error en registro de matricula"})
         
@@ -52,7 +57,12 @@ def update_matricula(id):
         affected_rows = MatriculaModel.update_matricula(matricula)
 
         if affected_rows == 1:
-            return jsonify({"message":"Matricula actualizada correctamente"})
+            return jsonify({
+                "message": "Registro exitoso",
+                "id": id,
+                "alumno_id": alumno_id,
+                "curso_id": curso_id
+            }), 200
         else:
             return jsonify({"message":"Error en actualizacion de matricula"}),500
         

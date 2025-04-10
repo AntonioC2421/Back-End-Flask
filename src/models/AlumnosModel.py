@@ -9,7 +9,7 @@ class AlumnoModel():
             listaAlumnos = []
 
             with connection.cursor() as cursor:
-                cursor.execute('SELECT id, name, last_name, email FROM alumnos')
+                cursor.execute('SELECT id, name, last_name, email FROM alumnos ORDER BY id asc')
                 resultset = cursor.fetchall()
 
                 if resultset:

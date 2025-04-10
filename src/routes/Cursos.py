@@ -34,7 +34,12 @@ def add_curso():
         affected_row = CursosModel.add_curso(curso)
 
         if affected_row == 1:
-            return jsonify({"message":"Curso agreado correctamente"})
+            return jsonify({
+                "message": "Registro exitoso",
+                "id": id,
+                "name": name,
+                "id_profesor": id_profesor
+            }), 200
         else:
             return jsonify({"message":"Error en crear el curso"}),500
         
@@ -52,7 +57,12 @@ def update_curso(id):
         affected_rows = CursosModel.update_curso(alumno)
 
         if affected_rows == 1:
-            return jsonify({"message":"Curso Actualizado"})
+            return jsonify({
+                "message": "Registro exitoso",
+                "id": id,
+                "name": name,
+                "id_profesor": id_profesor
+            }), 200
         else:
             return jsonify({"message":"Error al actualizar curso"}),500
         

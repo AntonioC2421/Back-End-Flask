@@ -11,7 +11,7 @@ class CursosModel():
             listaCursos = []
 
             with connection.cursor() as cursor:
-                cursor.execute('SELECT id, name, id_profesor FROM cursos')
+                cursor.execute('SELECT id, name, id_profesor FROM cursos ORDER BY id asc')
                 resultset = cursor.fetchall()
 
                 for OneCurso in resultset:
