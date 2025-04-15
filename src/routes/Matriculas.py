@@ -27,10 +27,9 @@ def add_matricula():
     try:
         id = request.json["id"]
         curso_id = request.json["curso_id"]
-        alumno_id =  request.json["alumno_id"]
+        alumno_id = request.json["alumno_id"]
 
-        matricula = Matricula(id,curso_id,alumno_id)
-
+        matricula = Matricula(id,alumno_id, curso_id)
         affected_row = MatriculaModel.add_matricula(matricula)
 
         if affected_row == 1:
@@ -41,10 +40,16 @@ def add_matricula():
                 "curso_id": curso_id
             }), 200
         else:
-            return jsonify({"message":"Error en registro de matricula"})
-        
+            return jsonify({"message": "Error en registro de matrícula"}), 400
+
+    except ValueError as ve:
+        # Errores de validación de datos (como IDs que no existen)
+        return jsonify({"message": str(ve)}), 404
+
     except Exception as ex:
-        return jsonify({"message": str(ex)}),500
+        # Errores internos
+        return jsonify({"message": str(ex)}), 500
+
     
 @main.route("/matriculas/update/<int:id>", methods=["PUT"])
 def update_matricula(id):
