@@ -1,7 +1,5 @@
 from flask import Blueprint, jsonify, request
 from models.ProfesoresModel import ProfesoresModel
-
-#Entities
 from models.entities.Profesores import Profesor
 
 main = Blueprint('profesor_blueprint', __name__)
@@ -13,9 +11,8 @@ def get_profesor():
         profesores = model.get_profesores()
         return jsonify(profesores)
     except Exception as ex:
-        return jsonify({"message": str(ex)}),500 #El error 500 es error de servidor
+        return jsonify({"message": str(ex)}),500
 
-#Consulta para un solo profesor
 @main.route('/profesores/<int:id>', methods=['GET'])
 def get_profe(id):
     try:
@@ -29,7 +26,6 @@ def get_profe(id):
     except Exception as ex:
         return jsonify({"message": str(ex)}),500
     
-#Agregar un profesor
 @main.route('/profesores/add', methods=['POST'])
 def add_profe():
     try:
@@ -56,7 +52,6 @@ def add_profe():
     except Exception as ex:
         return jsonify({"message": str(ex)}),500
 
-#Actualizar profesores
 @main.route('/profesores/update/<int:id>', methods=['PUT'])
 def update_profe(id):
     try:
@@ -82,7 +77,6 @@ def update_profe(id):
     except Exception as ex:
         return jsonify({"message": str(ex)}),500
 
-#Eliminar un profesor
 @main.route('/profesores/delete/<int:id>', methods=['DELETE'])
 def delete_profe(id):
     try:

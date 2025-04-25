@@ -86,9 +86,6 @@ class MatriculaModel():
             connection.close()
             return affected_rows
 
-        except ValueError as ve:
-            raise ve # Enviar el error para que el route lo maneje y pueda devolver un 404
-
         except Exception as ex:
             raise Exception(f"Error al registrar la matrícula: {str(ex)}")
 

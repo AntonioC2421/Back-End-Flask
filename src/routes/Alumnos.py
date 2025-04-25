@@ -62,7 +62,6 @@ def update_alumno(id):
         affected_rows = AlumnoModel.update_alumno(alumno)
 
         if affected_rows == 1:
-            
             #Devolver el alumno actualizado
             return jsonify({
                 "id": id,
@@ -70,7 +69,6 @@ def update_alumno(id):
                 "last_name": last_name,
                 "email": email
             }), 200
-        
         else:
             return jsonify({"message": "Error al editar alumno"}), 500
 
