@@ -9,7 +9,7 @@ class ProfesoresModel():
             listProfe = []
 
             with connection.cursor() as cursor:
-                cursor.execute('SELECT id, name, last_name, email FROM profesores')
+                cursor.execute('SELECT id, name, last_name, email FROM profesores ORDER BY id asc')
                 resultset = cursor.fetchall()
 
                 for row in resultset:
@@ -30,7 +30,7 @@ class ProfesoresModel():
             with connection.cursor() as cursor:
                 cursor.execute("SELECT id, name, last_name, email FROM profesores WHERE id = %s", (id,))
 
-                row = cursor.fetchone() #fetchone() -> para un solo resultado
+                row = cursor.fetchone()
 
                 if row is not None:
                     profe = Profesor(row[0], row[1], row[2], row[3])
@@ -51,7 +51,6 @@ class ProfesoresModel():
             with connection.cursor() as cursor:
                 cursor.execute("""INSERT INTO profesores (id,name,last_name,email) VALUES(%s,%s,%s,%s)""",(newprofe.id,newprofe.name,newprofe.last_name, newprofe.email))
                 
-                #Ver cuantas filas fueron afectadas
                 affected_rows=cursor.rowcount
                 connection.commit()
 
@@ -65,10 +64,10 @@ class ProfesoresModel():
     def delete_profes(self, deleteprofe):
         try:
             connection = get_connection()
+
             with connection.cursor() as cursor:
                 cursor.execute("DELETE FROM profesores WHERE id = %s", (deleteprofe.id,))
                 
-                #Ver cuantas filas fueron afectadas
                 affected_rows=cursor.rowcount
                 connection.commit()
 
@@ -82,10 +81,10 @@ class ProfesoresModel():
     def update_profes(self, updateprofe):
         try:
             connection = get_connection()
+
             with connection.cursor() as cursor:
                 cursor.execute("UPDATE profesores SET name=%s, last_name=%s, email=%s WHERE id = %s", (updateprofe.name,updateprofe.last_name,updateprofe.email,updateprofe.id))
                 
-                #Ver cuantas filas fueron afectadas
                 affected_rows=cursor.rowcount
                 connection.commit()
 
